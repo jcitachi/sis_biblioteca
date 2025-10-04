@@ -1,0 +1,89 @@
+Table configuracion {
+  id int [pk, increment]
+  nombre varchar(200)
+  telefono varchar(20)
+  direccion text
+  correo varchar(100)
+  foto varchar(50)
+}
+
+Table estudiante {
+  id int [pk, increment]
+  codigo varchar(20)
+  dni varchar(20)
+  nombres varchar(150)
+  apellidos varchar(150)
+  carrera varchar(255)
+  direccion text
+  telefono varchar(15)
+  estado int
+}
+
+Table usuarios {
+  id int [pk, increment]
+  usuario varchar(50)
+  nombre varchar(200)
+  clave varchar(100)
+  estado int
+}
+
+Table permisos {
+  id int [pk, increment]
+  nombre varchar(50)
+  tipo int
+}
+
+Table detalle_permisos {
+  id int [pk, increment]
+  id_usuario int [ref: > usuarios.id]
+  id_permiso int [ref: > permisos.id]
+}
+
+Table autor {
+  id int [pk, increment]
+  autor varchar(150)
+  imagen varchar(100)
+  estado int
+}
+
+Table editorial {
+  id int [pk, increment]
+  editorial varchar(150)
+  estado int
+}
+
+Table materia {
+  id int [pk, increment]
+  materia text
+  estado int
+}
+
+Table libro {
+  id int [pk, increment]
+  titulo text
+  cantidad int
+  id_autor int [ref: > autor.id]
+  id_editorial int [ref: > editorial.id]
+  anio_edicion date
+  id_materia int [ref: > materia.id]
+  num_pagina int
+  descripcion text
+  imagen varchar(100)
+  estado int
+}
+
+Table prestamo {
+  id int [pk, increment]
+  id_estudiante int [ref: > estudiante.id]
+  fecha_prestamo date
+  fecha_devolucion date
+  observacion text
+  estado int
+}
+
+Table detalle_prestamo {
+  id int [pk, increment]
+  id_prestamo int [ref: > prestamo.id]
+  id_libro int [ref: > libro.id]
+  cantidad int
+}
