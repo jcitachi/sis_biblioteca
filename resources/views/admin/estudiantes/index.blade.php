@@ -78,15 +78,37 @@
                                             <a href="{{ route('admin.estudiantes.edit', $estudiante->id) }}" class="btn btn-warning btn-sm rounded-pill">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="{{-- route('admin.estudiantes.destroy', $estudiante->id) --}}" method="POST"
+                                            <form id="miFormulario{{ $estudiante->id }}" action="{{ route('admin.estudiantes.destroy', $estudiante->id) }}" method="POST"
                                                 style="display:inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm rounded-pill"
-                                                    onclick="return confirm('¿Está seguro de eliminar este estudiante?')">
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-danger btn-sm rounded-pill"
+                                                    onclick="preguntar{{ $estudiante->id }}(event)">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
+                                            <script>
+                                                function preguntar{{ $estudiante->id }}(event) {
+                                                    event.preventDefault();
+                                                    Swal.fire({
+                                                        title: '¿Desea Eliminar este Registro?',
+                                                        text: "¡No podrás revertir esto!",
+                                                        icon: 'question',
+                                                        showCancelButton: true,
+                                                        confirmButtonText: 'Sí, eliminarlo',
+                                                        confirmButtonColor: '#a5161d',
+                                                        denyButtonColor: '#270a0a',
+                                                        denyButtonText: 'Cancelar'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            //java puro para enviar el formulario
+                                                           document.getElementById( 'miFormulario{{ $estudiante->id }}' ).submit();
+                                                        }
+                                                    });
+                                                }
+                                            </script>
                                         </td>
                                     </tr>
                                 @empty
